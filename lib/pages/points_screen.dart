@@ -63,6 +63,7 @@ child: Column(children: [
 
                   ),
                 ListView.separated(
+                    padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     primary: false,
                     itemBuilder: (_,i){

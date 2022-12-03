@@ -6,6 +6,7 @@ import 'package:quizme/pages/points_screen.dart';
 import 'package:quizme/pages/quiz_screen.dart';
 import 'package:quizme/pages/quiz_selection_screen.dart';
 import 'package:quizme/pages/splash%20page/splash_screen.dart';
+import 'package:quizme/utils/test.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
 
          primarySwatch: Colors.blue,
        ),
-       home: QuizScreen(),
+       home: PointsScreen(),
      );
      
    },

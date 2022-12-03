@@ -83,6 +83,7 @@ Image.asset('images/Vector-5.png',width: 24.22.w,height: 24.22.h),
                     ],
                   )),
               ListView.separated(
+                padding: EdgeInsets.zero,
                   shrinkWrap: true,
                   primary: false,
                   itemCount: 30,
