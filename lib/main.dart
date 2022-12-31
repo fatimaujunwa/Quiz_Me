@@ -1,20 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:quizme/pages/Home%20page/home_screen.dart';
 import 'package:quizme/pages/account_screen.dart';
 import 'package:quizme/pages/points_screen.dart';
 import 'package:quizme/pages/quiz_screen.dart';
 import 'package:quizme/pages/quiz_selection_screen.dart';
 import 'package:quizme/pages/splash%20page/splash_screen.dart';
+import 'package:quizme/repository/quiz_repo.dart';
 import 'package:quizme/utils/test.dart';
+import 'package:quizme/dependencies/dependencies.dart' as dep;
 
-void main() {
+import 'controller/quiz_controller.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await dep.init();
+
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Get.find<QuizRepo>().getQuiz();
+  }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -28,11 +50,11 @@ class MyApp extends StatelessWidget {
        ),
        home: PointsScreen(),
      );
-     
+
    },
    designSize: Size(414, 897.95),
    );
-   
+
   }
 }
 
