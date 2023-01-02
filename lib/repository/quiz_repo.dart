@@ -1,18 +1,21 @@
 import 'package:get/get_connect/http/src/response/response.dart';
-import 'package:http/http.dart'as res;
-import 'package:get/get_connect/http/src/response/response.dart';
-import 'package:http/http.dart';
+
+
+
+import 'package:quizme/api_client/api_client.dart';
+import 'package:quizme/utils/app_variables.dart';
 
 
 
 
-String endpoint="https://opentdb.com/api.php?amount=20&category=10&difficulty=easy&type=multiple";
+String endpoint="";
 class QuizRepo{
-Future<void> getQuiz()async{
-  res.Response response=await get(Uri.parse(endpoint));
-if(response.statusCode==200){
-  print(response);
-    }
+  final ApiClient apiClient;
+  QuizRepo({required this.apiClient});
+
+Future <Response>getQuiz()async{
+return await apiClient.getData('${AppVariables.BASE_URI}?amount=20&category=10&difficulty=easy&type=multiple');
+
 
 
 }
