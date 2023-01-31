@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quizme/helper/helper_functions.dart';
 import 'package:quizme/utils/app_colors.dart';
+import 'package:quizme/utils/widgets/custom_snackbar.dart';
 
 import '../utils/text_dimensions.dart';
 
@@ -13,12 +15,74 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  String ?x='hi';
+  TextEditingController fname=TextEditingController();
+  TextEditingController lname=TextEditingController();
+  TextEditingController age=TextEditingController();
+  TextEditingController email=TextEditingController();
+  setBio(TextEditingController fname )async{
+   HelperFunctions.getFirstName().then((value) {
+setState(() {
+  fname.text=value!;
+});
+
+
+   });
+   HelperFunctions.getLastName().then((value) {
+     if(value!=null){
+
+       setState(() {
+         lname.text=value!;
+       });
+     }
+     else{
+       print('null');
+     }
+
+
+
+   });
+   HelperFunctions.getEmail().then((value) {
+     if(value!=null){
+       setState(() {
+         email.text=value!;
+       });
+     }
+     else{
+      print('null');
+     }
+
+
+
+   });
+   HelperFunctions.getAge().then((value) {
+     if(value!=null){
+       setState(() {
+         age.text=value!;
+       });
+     }
+     else{
+       print('null');
+     }
+
+
+
+   });
+
+
+
+  }
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setBio(fname);
+
+  }
   @override
   Widget build(BuildContext context) {
-    TextEditingController fname=TextEditingController();
-    TextEditingController lname=TextEditingController();
-    TextEditingController age=TextEditingController();
-    TextEditingController email=TextEditingController();
+
+    print(lname.text);
 
     return Scaffold(
       body: Stack(
@@ -46,7 +110,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             style: TextDimensions.style36joseW300Grey,
                           ),
                           Text(
-                            'Fatima,',
+                            fname.text,
                             style: TextDimensions.style36joseW600Grey,
                           ),
                         ],
@@ -60,27 +124,38 @@ class _AccountScreenState extends State<AccountScreen> {
                       SizedBox(height: 40.85.h,),
                       Text('Your Profile',style: TextDimensions.style24joseW400Black,),
                       SizedBox(height: 10.h,),
-                      CustomTextField(controller: fname,text: 'Fatima',),
-                      CustomTextField(controller: fname,text: 'Last name',),
-                      CustomTextField(controller: fname,text: 'Age',),
-                      CustomTextField(controller: fname,text: 'Email address',),
+                      CustomTextField(controller: fname,text: 'Fatima'),
+                      CustomTextField(controller: lname,text: 'Ujunwa',),
+                      CustomTextField(controller:age,text: '19',),
+                      CustomTextField(controller: email,text: 'xxx@gmail.com'),
 SizedBox(height: 40.h,),
                       Align(
                         alignment: Alignment.center,
-                        child: Container(
-                          alignment: Alignment.center,
-                          height:52.h ,
-                          width: 135.w,
-
-                          decoration: BoxDecoration(
-                          color: Color(0xffE0E0E0),
-                          borderRadius: BorderRadius.circular(16.r),
-
+                        child: GestureDetector(
+                          onTap: (){
+                            HelperFunctions.saveFirstName(fname.text);
+                            HelperFunctions.saveLastName(lname.text);
+                            HelperFunctions.saveAge(age.text);
+                            HelperFunctions.saveEmail(email.text);
+                           showCustomSnackBar('Updated Successfully', 'Bio-Data update');
 
 
-                        ),
-                        child: Text('Update',style: TextDimensions.style16joseW600Grey,),
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height:52.h ,
+                            width: 135.w,
 
+                            decoration: BoxDecoration(
+                            color: AppColors.lightBlue,
+                            borderRadius: BorderRadius.circular(16.r),
+
+
+
+                          ),
+                          child: Text('Update',style: TextDimensions.style16joseW600White,),
+
+                          ),
                         ),
                       )
                     ],

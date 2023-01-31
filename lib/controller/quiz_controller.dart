@@ -12,10 +12,12 @@ import 'package:quizme/repository/quiz_repo.dart';
 import '../utils/app_variables.dart';
 
 class QuizController extends GetxController implements GetxService {
+
 final QuizRepo repo;
 QuizController({required this.repo});
 List<Results> _quiz=[];
 List<Results> get quiz=>_quiz;
+
 
 
 Future<List<Results>>getQuiz()async {

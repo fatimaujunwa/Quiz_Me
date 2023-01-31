@@ -9,6 +9,7 @@ import 'package:quizme/pages/quiz_screen.dart';
 import 'package:quizme/pages/quiz_selection_screen.dart';
 import 'package:quizme/pages/splash%20page/splash_screen.dart';
 import 'package:quizme/repository/quiz_repo.dart';
+import 'package:quizme/utils/routing.dart';
 import 'package:quizme/utils/test.dart';
 import 'package:quizme/dependencies/dependencies.dart' as dep;
 
@@ -35,20 +36,22 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Get.find<QuizController>().getQuiz();
+    // Get.find<QuizController>().getQuiz();
   }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
    return ScreenUtilInit(builder: (context,_){
-     return MaterialApp(
+     return GetMaterialApp(
        debugShowCheckedModeBanner: false,
        title: 'Flutter Demo',
        theme: ThemeData(
 
          primarySwatch: Colors.blue,
        ),
-       home: PointsScreen(),
+       home: HomeScreen(),
+       // initialRoute: RouteHelper.initial,
+       getPages: RouteHelper.routes,
      );
 
    },
@@ -92,6 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //

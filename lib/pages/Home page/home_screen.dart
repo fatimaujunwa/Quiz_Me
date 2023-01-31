@@ -1,15 +1,79 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:quizme/utils/app_colors.dart';
+import 'package:quizme/utils/routing.dart';
 import 'package:quizme/utils/text_dimensions.dart';
 
-class HomeScreen extends StatelessWidget {
+import '../../helper/helper_functions.dart';
+import '../../utils/widgets/custom_dialogue.dart';
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController controller=TextEditingController();
+
+
+  void createAlert(){
+
+    CustomDialogue.showCustomDialogOnboardingScreen(context, okBtnFunction: (){
+      print(controller.text);
+      if(controller.text.isEmpty){
+        print('empty');
+
+        HelperFunctions.saveFirstNameStatus(false);
+        // Navigator.pop(context);
+
+      }
+      else{
+        print('not empty');
+        HelperFunctions.saveFirstNameStatus(true);
+        HelperFunctions.saveFirstName(controller.text.trim());
+        // Navigator.pop(context);
+
+
+      }
+
+
+    }, controller: controller);
+  }
+
+  @override
+  void initState() {
+
+
+    // TODO: implement initState
+    super.initState();
+
+
+  }
 
 
   @override
   Widget build(BuildContext context) {
+    HelperFunctions.getFirstNameStatus().then((value) {
+
+      if(value==true){
+        print(value);
+
+
+      }
+      else{
+        Future.delayed(Duration.zero,()=>createAlert());
+        print(false);
+
+
+
+      }
+    });
+
     return Scaffold(
       body: Stack(children: [
         Container(
@@ -54,7 +118,12 @@ class HomeScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
 Image.asset('images/Vector-5.png',width: 24.22.w,height: 24.22.h),
-                                Image.asset('images/Vector-4.png',width: 24.22.w,height: 24.22.h,),
+                                GestureDetector(
+                                  onTap: (){
+                                    Get.toNamed(RouteHelper.profile);
+                                  },
+
+                                    child: Image.asset('images/Vector-4.png',width: 24.22.w,height: 24.22.h,)),
                             ],),
                           ),
                         ],
@@ -88,9 +157,18 @@ Image.asset('images/Vector-5.png',width: 24.22.w,height: 24.22.h),
                   primary: false,
                   itemCount: 30,
                   itemBuilder: (_, i) {
-                    return 
-                      
-                   (i%2==0) ?  QuizWidget(text:'Test your math skills with out free numeracy quizzes' ,img: 'images/Rectangle 8.png', title: 'Numeracy Quiz',):QuizWidget(text:'Test your math skills with out free numeracy quizzes' ,img: 'images/Rectangle 9.png', title: 'Numeracy Quiz',);
+                    return
+
+                   (i%2==0) ?  GestureDetector(
+                     onTap: (){
+                     CustomDialogue.showCustomDialog(context, okBtnFunction: (){});
+                     },
+                       child: QuizWidget(text:'Test your math skills with out free numeracy quizzes' ,img: 'images/Rectangle 8.png', title: 'Numeracy Quiz',)):GestureDetector(
+                     onTap: (){
+                       CustomDialogue.showCustomDialog(context, okBtnFunction: (){});
+                     },
+
+                       child: QuizWidget(text:'Test your math skills with out free numeracy quizzes' ,img: 'images/Rectangle 9.png', title: 'Numeracy Quiz',));
                   }, separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(height: 8.h,);
               },)

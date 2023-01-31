@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:quizme/pages/Home%20page/home_screen.dart';
 import 'package:quizme/utils/app_colors.dart';
+import 'package:quizme/utils/routing.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -29,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     CurvedAnimation(parent: animationController, curve: Curves.decelerate);
     Timer
 
-      (const Duration(seconds: 4), ()=>HomeScreen());
+      (const Duration(seconds: 4), ()=>Get.offNamed(RouteHelper.homeScreen));
     
   }
   @override

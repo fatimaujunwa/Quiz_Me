@@ -1,9 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quizme/pages/account_screen.dart';
 import 'package:quizme/utils/app_colors.dart';
 import 'package:quizme/utils/text_dimensions.dart';
 
+enum Level{
+  intermediate,
+  beginner,
+  advanced
+}
 class CustomDialogue {
   static CustomDialogue _instance = new CustomDialogue.internal();
 
@@ -43,11 +49,11 @@ style: TextDimensions.style36joseW600Grey,
 
                 ),
                 SizedBox(height: 24.h,),
-               LevelWidget(text: '15 Available quizzes',level: 'Beginner',),
+               LevelWidget(text: '15 Available quizzes',level: 'Beginner', l: Level.beginner,),
                 SizedBox(height: 10.h,),
-                LevelWidget(text: '10 Available quizzes',level: 'Intermediate',),
+                LevelWidget(text: '10 Available quizzes',level: 'Intermediate', l: Level.intermediate,),
                 SizedBox(height: 10.h,),
-                LevelWidget(text: '5 Available quizzes',level: 'Advance',),
+                LevelWidget(text: '5 Available quizzes',level: 'Advance', l: Level.advanced,),
 SizedBox(height: 24.51.h,),
                 Container(
 padding: EdgeInsets.only(left:16.w),
@@ -232,7 +238,7 @@ crossAxisAlignment: CrossAxisAlignment.start,
         context: context,
         builder: (_) {
           return AlertDialog(
-
+alignment: Alignment.topCenter,
             content:Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -289,18 +295,21 @@ crossAxisAlignment: CrossAxisAlignment.start,
             actions: <Widget>[
               Align(
                 alignment: Alignment.center,
-                child: Container(
+                child: GestureDetector(
+                  onTap: okBtnFunction,
+                  child: Container(
 
-                  alignment: Alignment.center,
-                  height: 52.h,
-                  width: 135.w,
-                  decoration: BoxDecoration(
-                      color: AppColors.lightBlue.withOpacity(0.6),
-                      borderRadius: BorderRadius.circular(16.r)
+                    alignment: Alignment.center,
+                    height: 52.h,
+                    width: 135.w,
+                    decoration: BoxDecoration(
+                        color: AppColors.lightBlue.withOpacity(0.6),
+                        borderRadius: BorderRadius.circular(16.r)
+
+                    ),
+                    child: Text('Submit',style: TextDimensions.style16joseW600White,),
 
                   ),
-                  child: Text('Submit',style: TextDimensions.style16joseW600White,),
-
                 ),
               ),
 
@@ -313,51 +322,74 @@ crossAxisAlignment: CrossAxisAlignment.start,
 
 }
 
-class LevelWidget extends StatelessWidget {
+Level selectedLevel=Level.beginner;
+
+class LevelWidget extends StatefulWidget {
   const LevelWidget({
     Key? key,
     required this.text,
-    required this.level
+    required this.level,
+    required this.l,
   }) : super(key: key);
   final String level;
   final String text;
+  final Level l;
+
+  @override
+  State<LevelWidget> createState() => _LevelWidgetState();
+}
+
+class _LevelWidgetState extends State<LevelWidget> {
+
+
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 55.h,
-      width: 329.w,
-      padding: EdgeInsets.only(left: 18.w),
-      decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(16.r),
+
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+          selectedLevel=widget.l;
+        });
+        print(widget.l.toString());
+        print(selectedLevel);
+      },
+      child: Container(
+        height: 55.h,
+        width: 329.w,
+        padding: EdgeInsets.only(left: 18.w),
+        decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16.r),
 color: Color(0xffE6EDF3),
+          border: Border.all(color: selectedLevel==widget.l?AppColors.lightBlue:AppColors.orange)
 
-    ),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(level,style: TextDimensions.style16josew600blue,),
-        SizedBox(width: 10.w,),
-        Container(
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(widget.level,style: TextDimensions.style16josew600blue,),
+          SizedBox(width: 10.w,),
+          Container(
 
-          height: 31.h,
-          width: 151.w,
-          padding: EdgeInsets.symmetric(vertical: 8.h,horizontal: 16.w),
-          decoration: BoxDecoration(
-          color: AppColors.lightBlue,
-          borderRadius:BorderRadius.circular(32.r)
+            height: 31.h,
+            width: 151.w,
+            padding: EdgeInsets.symmetric(vertical: 8.h,horizontal: 16.w),
+            decoration: BoxDecoration(
+            color: AppColors.lightBlue,
+            borderRadius:BorderRadius.circular(32.r)
 
-        ),
-        child: Text(text,style: TextDimensions.style13joseW400grey,),
+          ),
+          child: Text(widget.text,style: TextDimensions.style13joseW400grey,),
 
-        ),
-
-
-      ],
-    ),
+          ),
 
 
+        ],
+      ),
 
+
+
+      ),
     );
   }
 }
