@@ -12,4 +12,5 @@ class AppColors{
   static final black=Color(0xff000000);
   static final textColor=Color(0xff9FA0A1);
   static final smallTextColor=Color(0xffE6EDF3);
+  static final pointColor=Color(0xffEDF1F5);
 }

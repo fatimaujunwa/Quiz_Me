@@ -32,7 +32,8 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     CurvedAnimation(parent: animationController, curve: Curves.decelerate);
     Timer
 
-      (const Duration(seconds: 4), ()=>Get.offNamed(RouteHelper.homeScreen));
+      (const Duration(seconds: 4),
+       ()=>Get.offNamed(RouteHelper.homeScreen));
     
   }
   @override

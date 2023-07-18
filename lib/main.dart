@@ -36,7 +36,9 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // Get.find<QuizController>().getQuiz();
+    Get.find<QuizController>().getQuiz();
+
+
   }
   // This widget is the root of your application.
   @override
@@ -49,8 +51,8 @@ class _MyAppState extends State<MyApp> {
 
          primarySwatch: Colors.blue,
        ),
-       home: HomeScreen(),
-       // initialRoute: RouteHelper.initial,
+       // home:HomeScreen(),
+       initialRoute: RouteHelper.initial,
        getPages: RouteHelper.routes,
      );
 

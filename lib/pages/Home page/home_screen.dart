@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:quizme/controller/quiz_controller.dart';
 import 'package:quizme/utils/app_colors.dart';
 import 'package:quizme/utils/routing.dart';
 import 'package:quizme/utils/text_dimensions.dart';
@@ -20,6 +21,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController controller=TextEditingController();
 
+  List category=['General Knowledge','Books','Film','Music','Musicals & Theatres','Television','Video Games', 'Board Games','Science & Nature','Science: Computers',
+    'Science: Mathematics,', 'Mythology','Sports','Geography','History','Politics','Arts','Celebrities','Animals','Vehicles','Comics','Gadgets','Japanese Anime & Manga ','Cartoon and Animations'];
+
 
   void createAlert(){
 
@@ -29,14 +33,14 @@ class _HomeScreenState extends State<HomeScreen> {
         print('empty');
 
         HelperFunctions.saveFirstNameStatus(false);
-        // Navigator.pop(context);
+        Navigator.pop(context);
 
       }
       else{
         print('not empty');
         HelperFunctions.saveFirstNameStatus(true);
         HelperFunctions.saveFirstName(controller.text.trim());
-        // Navigator.pop(context);
+        Navigator.pop(context);
 
 
       }
@@ -57,7 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   @override
+
   Widget build(BuildContext context) {
+
+
     HelperFunctions.getFirstNameStatus().then((value) {
 
       if(value==true){
@@ -120,7 +127,9 @@ class _HomeScreenState extends State<HomeScreen> {
 Image.asset('images/Vector-5.png',width: 24.22.w,height: 24.22.h),
                                 GestureDetector(
                                   onTap: (){
+
                                     Get.toNamed(RouteHelper.profile);
+
                                   },
 
                                     child: Image.asset('images/Vector-4.png',width: 24.22.w,height: 24.22.h,)),
@@ -151,27 +160,35 @@ Image.asset('images/Vector-5.png',width: 24.22.w,height: 24.22.h),
 
                     ],
                   )),
-              ListView.separated(
-                padding: EdgeInsets.zero,
+              GetBuilder<QuizController>(builder: (controller){
+                return ListView.separated(
+                  padding: EdgeInsets.zero,
                   shrinkWrap: true,
                   primary: false,
-                  itemCount: 30,
+                  itemCount: category.length,
                   itemBuilder: (_, i) {
+
+
                     return
 
-                   (i%2==0) ?  GestureDetector(
-                     onTap: (){
-                     CustomDialogue.showCustomDialog(context, okBtnFunction: (){});
-                     },
-                       child: QuizWidget(text:'Test your math skills with out free numeracy quizzes' ,img: 'images/Rectangle 8.png', title: 'Numeracy Quiz',)):GestureDetector(
-                     onTap: (){
-                       CustomDialogue.showCustomDialog(context, okBtnFunction: (){});
-                     },
+                      (i%2==0) ?  GestureDetector(
+                          onTap: (){
+                           print(i+9);
 
-                       child: QuizWidget(text:'Test your math skills with out free numeracy quizzes' ,img: 'images/Rectangle 9.png', title: 'Numeracy Quiz',));
+                              CustomDialogue.showCustomDialog(context, okBtnFunction: (){}, category: i+9);
+                          },
+                          child: QuizWidget(text:'Test your ${category[i]} skills with out free quizzes' ,img: 'images/Rectangle 8.png', title: category[i])):GestureDetector(
+                          onTap: (){
+                            print(i);
+                            CustomDialogue.showCustomDialog(context, okBtnFunction: (){}, category: i+9);
+                          },
+
+                          child: QuizWidget(text:'Test your ${category[i]} skills with out free quizzes' ,img: 'images/Rectangle 9.png', title:category[i],));
                   }, separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(height: 8.h,);
-              },)
+                  return SizedBox(height: 8.h,);
+                },);
+              })
+
             ],
           ),
         ),
@@ -203,25 +220,30 @@ class QuizWidget extends StatelessWidget {
       margin: EdgeInsets.only(left: 16.w,right: 16.w),
 
     decoration: BoxDecoration(
-
+borderRadius: BorderRadius.circular(16.r),
+      // color: AppColors.lighterBlue,
+      // border: Border(
+      //   right: BorderSide(color: Colors.black, width: 5.0),
+      // ),
         image: DecorationImage(
             image: AssetImage(img),
-            fit: BoxFit.fill)),
+            fit: BoxFit.fill)
+
+    ),
     child: Container(
         padding: EdgeInsets.only(left: 16.96.w, top: 16.h),
 
         child: Row(
           children: [
-            Text('h'),
-            SizedBox(
-              width: 16.65.w,
-            ),
+
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
                   style: TextDimensions.style24joseW400Black,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(
                   height: 6.h,
@@ -229,7 +251,7 @@ class QuizWidget extends StatelessWidget {
                Container(
 
                   height: 40.h,
-                  width: 277.85.h,
+                  width: 350.85.h,
                   child: Text(
                     text,
                     style: TextDimensions

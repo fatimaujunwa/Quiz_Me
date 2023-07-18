@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:quizme/helper/helper_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api_client/api_client.dart';
@@ -18,6 +19,7 @@ Future<void>init(
   Get.lazyPut(() => QuizRepo(apiClient: Get.find(),));
 
   Get.lazyPut(() => QuizController( repo: Get.find()));
+  Get.lazyPut(() => HelperFunctions());
 
 
 

@@ -11,6 +11,7 @@ class TextDimensions{
   static final style16joseW400Black=GoogleFonts.josefinSans(fontSize: 16.sp,fontWeight: FontWeight.w400,color: AppColors.black);
   static final style16joseW600White=GoogleFonts.josefinSans(fontSize: 16.sp,fontWeight: FontWeight.w600,color: AppColors.whiteColor);
   static final style16joseW400White=GoogleFonts.josefinSans(fontSize: 16.sp,fontWeight: FontWeight.w400,color: AppColors.whiteColor);
+  static final style16joseW400Blue=GoogleFonts.josefinSans(fontSize: 16.sp,fontWeight: FontWeight.w400,color: AppColors.lightBlue);
   static final style16joseW400lightgrey=GoogleFonts.josefinSans(fontSize: 16.sp,fontWeight: FontWeight.w400,color: Color(0xff9C9C9C));
   static final style24joseW400White=GoogleFonts.josefinSans(fontSize: 24.sp,fontWeight: FontWeight.w400,color: AppColors.whiteColor);
   static final style24joseW400Black=GoogleFonts.josefinSans(fontSize: 24.sp,fontWeight: FontWeight.w400,color: AppColors.black);

@@ -1,15 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:quizme/controller/quiz_controller.dart';
 import 'package:quizme/pages/account_screen.dart';
 import 'package:quizme/utils/app_colors.dart';
+import 'package:quizme/utils/routing.dart';
 import 'package:quizme/utils/text_dimensions.dart';
 
-enum Level{
-  intermediate,
-  beginner,
-  advanced
-}
+
 class CustomDialogue {
   static CustomDialogue _instance = new CustomDialogue.internal();
 
@@ -24,7 +24,8 @@ class CustomDialogue {
         String text='',
         String subText='',
         bool approved=true,
-        required Function() okBtnFunction
+        required Function() okBtnFunction,
+        required int category,
 
 
       }) {
@@ -33,61 +34,74 @@ class CustomDialogue {
         builder: (_) {
           return AlertDialog(
 
-            content:Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
+            content:
+                GetBuilder<QuizController>(builder: (controller){
+                 return   Column(
+                   mainAxisSize: MainAxisSize.min,
+                   mainAxisAlignment: MainAxisAlignment.start,
 
-              children: [
-                SizedBox(height: 36.52.h,),
-               Row(children: [
-                 Text('Hi',style: TextDimensions.style36joseW300Grey,),
-                 Image.asset("images/image 1.png",height: 44.98.h,width: 59.07.w,)
-               ],),
+                   children: [
+                     SizedBox(height: 36.52.h,),
+                     Row(children: [
+                       Text('Hi',style: TextDimensions.style36joseW300Grey,),
+                       Image.asset("images/image 1.png",height: 44.98.h,width: 59.07.w,)
+                     ],),
 
-                Text('Choose your skill level?',
-style: TextDimensions.style36joseW600Grey,
+                     Text('Choose your skill level?',
+                       style: TextDimensions.style36joseW600Grey,
 
-                ),
-                SizedBox(height: 24.h,),
-               LevelWidget(text: '15 Available quizzes',level: 'Beginner', l: Level.beginner,),
-                SizedBox(height: 10.h,),
-                LevelWidget(text: '10 Available quizzes',level: 'Intermediate', l: Level.intermediate,),
-                SizedBox(height: 10.h,),
-                LevelWidget(text: '5 Available quizzes',level: 'Advance', l: Level.advanced,),
-SizedBox(height: 24.51.h,),
-                Container(
-padding: EdgeInsets.only(left:16.w),
-                  height: 150.h,width: 499.w,
+                     ),
+                     SizedBox(height: 24.h,),
+                     LevelWidget(text: '15 Available quizzes',level: 'easy', l: Level.beginner,cat: category, tap: () {
+                       Get.find<QuizController>().getQuizLevel('easy',category).then((value) => Get.toNamed(RouteHelper.getQuizSelection()));
+                       controller.setLevel(Level.beginner);
 
-                  decoration: BoxDecoration(
-                      color: Color(0xffF5E9E2),
-                    borderRadius: BorderRadius.circular(16.r),
+                     },),
+                     SizedBox(height: 10.h,),
+                     LevelWidget(text: '10 Available quizzes',level: 'medium', l: Level.intermediate,cat: category, tap: () {
+                      controller.setLevel(Level.intermediate);
 
-                  ),
+                     },),
+                     SizedBox(height: 10.h,),
+                     LevelWidget(text: '5 Available quizzes',level: 'hard', l: Level.advanced,cat: category, tap: () {
+                       controller.setLevel(Level.advanced);
+                     },),
+                     SizedBox(height: 24.51.h,),
+                     Container(
+                       padding: EdgeInsets.only(left:16.w),
+                       height: 150.h,width: 499.w,
 
-                  child: Row(
+                       decoration: BoxDecoration(
+                         color: Color(0xffF5E9E2),
+                         borderRadius: BorderRadius.circular(16.r),
 
+                       ),
 
-                    children: [
-Image.asset('images/Vector-3.png',height: 24.22.h,width: 24.22.w,),
-                    SizedBox(width: 10.w,),
-                    Container(
-
-                      height: 114.h,
-                        width: 215.48.w,
-
-                        child: Text('The skill level choosen determines how complex the questions would be. Take your time as the questions aren’t timed as you are can view the answers to the questions as you go.',
-                          style: TextDimensions.style16joseW400Black,)),
-
+                       child: Row(
 
 
+                         children: [
+                           Image.asset('images/Vector-3.png',height: 24.22.h,width: 24.22.w,),
+                           SizedBox(width: 10.w,),
+                           Container(
 
-                  ],),
-                ),
-                SizedBox(height: 40.h,),
+                               height: 114.h,
+                               width: 215.48.w,
 
-              ],
-            ),
+                               child: Text('The skill level choosen determines how complex the questions would be. Take your time as the questions aren’t timed as you are can view the answers to the questions as you go.',
+                                 style: TextDimensions.style16joseW400Black,)),
+
+
+
+
+                         ],),
+                     ),
+                     SizedBox(height: 40.h,),
+
+                   ],
+                 );
+                }),
+
             actions: <Widget>[
               Align(
                 alignment: Alignment.center,
@@ -119,8 +133,10 @@ Image.asset('images/Vector-3.png',height: 24.22.h,width: 24.22.w,),
         String cancelBtnText = "Cancel",
         String text='',
         String subText='',
+
         bool approved=true,
-        required Function() okBtnFunction
+        required Function() okBtnFunction,
+
 
 
       }) {
@@ -149,7 +165,7 @@ crossAxisAlignment: CrossAxisAlignment.start,
    Center(child: Image.asset('images/Group 24.png',height: 162.41.h,width: 162.41.w,)),
               Align(
                   alignment: Alignment.center,
-                  child: Text('10/12',style: TextDimensions.style38josew600blue,))
+                  child: Text('$text/$subText',style: TextDimensions.style38josew600blue,))
                 // Container(
                 //   padding: EdgeInsets.only(left:16.w),
                 //   height: 150.h,width: 499.w,
@@ -230,13 +246,15 @@ crossAxisAlignment: CrossAxisAlignment.start,
         String subText='',
         bool approved=true,
         required Function() okBtnFunction,
-       required TextEditingController controller
+       required TextEditingController controller,
+
 
 
       }) {
     showDialog(
         context: context,
         builder: (_) {
+
           return AlertDialog(
 alignment: Alignment.topCenter,
             content:Column(
@@ -293,6 +311,7 @@ alignment: Alignment.topCenter,
               ],
             ),
             actions: <Widget>[
+
               Align(
                 alignment: Alignment.center,
                 child: GestureDetector(
@@ -322,7 +341,7 @@ alignment: Alignment.topCenter,
 
 }
 
-Level selectedLevel=Level.beginner;
+
 
 class LevelWidget extends StatefulWidget {
   const LevelWidget({
@@ -330,10 +349,15 @@ class LevelWidget extends StatefulWidget {
     required this.text,
     required this.level,
     required this.l,
+  required this.cat,
+    required this.tap
   }) : super(key: key);
   final String level;
   final String text;
   final Level l;
+  final int cat;
+  final Function() tap;
+
 
   @override
   State<LevelWidget> createState() => _LevelWidgetState();
@@ -346,14 +370,10 @@ class _LevelWidgetState extends State<LevelWidget> {
   @override
   Widget build(BuildContext context) {
 
-    return GestureDetector(
-      onTap: (){
-        setState(() {
-          selectedLevel=widget.l;
-        });
-        print(widget.l.toString());
-        print(selectedLevel);
-      },
+
+    return
+      GestureDetector(
+      onTap:widget.tap,
       child: Container(
         height: 55.h,
         width: 329.w,
@@ -361,7 +381,7 @@ class _LevelWidgetState extends State<LevelWidget> {
         decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.r),
 color: Color(0xffE6EDF3),
-          border: Border.all(color: selectedLevel==widget.l?AppColors.lightBlue:AppColors.orange)
+          border: Border.all(color: Get.find<QuizController>().selectedLevel==widget.l?AppColors.lightBlue:AppColors.whiteColor)
 
       ),
       child: Row(
