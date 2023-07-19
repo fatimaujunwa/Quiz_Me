@@ -214,7 +214,10 @@ late int index;
                                         : AppColors.lightBlue,
                                     child: Text(
                                       i.toString(),
-                                      style: TextDimensions.style29joseW400white,
+                                      style:
+                                      controller.map[i] ==true? TextDimensions.style29joseW400blue:
+                                      
+                                       TextDimensions.style29joseW400white,
                                     ),
                                   ));
                             },

@@ -44,7 +44,9 @@ child: Column(children: [
   Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      PointsWidget(image: 'images/Rectangle 7.png',text: '10 points', height: 274.59.h, width: 217.58.w,img: 'images/amico.png', imgHeight: 169.98.h, imgWidth: 153.58.w,),
+      PointsWidget(image: 'images/Rectangle 7.png', height: 274.59.h, width: 217.58.w,img: 'images/amico.png', imgHeight: 169.98.h, imgWidth: 153.58.w,
+      type: PointsType.trophytype,
+      ),
       SizedBox(width: 16.w,),
       Container(
 

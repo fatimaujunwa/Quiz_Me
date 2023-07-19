@@ -11,12 +11,13 @@ import '../utils/app_variables.dart';
 Future<void>init(
     )async{
   //shared preferences
-  final sharedPreferences=await SharedPreferences.getInstance();
+  final sharedPreferences = await SharedPreferences.getInstance();
   Get.lazyPut(() => sharedPreferences);
   Get.lazyPut(()=> ApiClient(appBaseUrl: AppVariables.BASE_URI));
+  
 
   //repositories
-  Get.lazyPut(() => QuizRepo(apiClient: Get.find(),));
+  Get.lazyPut(() => QuizRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
 
   Get.lazyPut(() => QuizController( repo: Get.find()));
   Get.lazyPut(() => HelperFunctions());

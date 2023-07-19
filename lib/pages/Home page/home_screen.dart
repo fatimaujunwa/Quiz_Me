@@ -20,6 +20,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController controller=TextEditingController();
+  
+  int stars =0;
 
   List category=['General Knowledge','Books','Film','Music','Musicals & Theatres','Television','Video Games', 'Board Games','Science & Nature','Science: Computers',
     'Science: Mathematics,', 'Mythology','Sports','Geography','History','Politics','Arts','Celebrities','Animals','Vehicles','Comics','Gadgets','Japanese Anime & Manga ','Cartoon and Animations'];
@@ -63,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
 
   Widget build(BuildContext context) {
+  stars = Get.find<QuizController>().getStars();
 
 
     HelperFunctions.getFirstNameStatus().then((value) {
@@ -146,11 +149,15 @@ Image.asset('images/Vector-5.png',width: 24.22.w,height: 24.22.h),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              PointsWidget(image: 'images/Rectangle 7.png',text: '10 points', height: 236.h, width: 187.w,img: 'images/amico.png',imgHeight: 146.09.h,imgWidth: 132.w,),
+                              PointsWidget(image: 'images/Rectangle 7.png', height: 236.h, width: 187.w,img: 'images/amico.png',imgHeight: 146.09.h,imgWidth: 132.w,stars: stars,
+                              type: PointsType.trophytype,
+                              ),
                               SizedBox(width: 8.w,),
                               Padding(
                                 padding:  EdgeInsets.only(top: 49.14.h),
-                                child: PointsWidget(image: 'images/Rectangle 6.png',text: '10 points', height: 236.h, width: 187.w,img: 'images/Group 24.png',imgHeight: 146.09.h,imgWidth: 132.w,),
+                                child: PointsWidget(image: 'images/Rectangle 6.png', height: 236.h, width: 187.w,img: 'images/Group 24.png',imgHeight: 146.09.h,imgWidth: 132.w,
+                                type: PointsType.starstype,
+                                ),
                               ),
 
                             ],
@@ -179,7 +186,7 @@ Image.asset('images/Vector-5.png',width: 24.22.w,height: 24.22.h),
                           },
                           child: QuizWidget(text:'Test your ${category[i]} skills with out free quizzes' ,img: 'images/Rectangle 8.png', title: category[i])):GestureDetector(
                           onTap: (){
-                            print(i);
+                           
                             CustomDialogue.showCustomDialog(context, okBtnFunction: (){}, category: i+9);
                           },
 
@@ -268,18 +275,25 @@ borderRadius: BorderRadius.circular(16.r),
   }
 }
 
+enum PointsType{
+  starstype,
+  trophytype
+}
+
 class PointsWidget extends StatelessWidget {
   const PointsWidget(
       {Key? key,
-      required this.text,
+      
       required this.image,
       required this.height,
       required this.width,
       required this.img,required this.imgHeight,
-        required this.imgWidth
+        required this.imgWidth,
+        required this.type,
+         this.stars = 0
       })
       : super(key: key);
-  final String text;
+
   final String image;
 
   final double height;
@@ -287,6 +301,9 @@ class PointsWidget extends StatelessWidget {
   final String img;
   final double imgHeight;
   final double imgWidth;
+  final int stars;
+  final PointsType type;
+  
 
 
   @override
@@ -304,7 +321,11 @@ class PointsWidget extends StatelessWidget {
       child: Column(children: [
  Image.asset(img,height:imgHeight ,width: imgWidth,),
         SizedBox(height:30.h ,),
-        Text('10 points',style: TextDimensions.style24joseW400White,)
+        Text(
+          type == PointsType.starstype?
+          '$stars points':' 12 points',
+          
+          style: TextDimensions.style24joseW400White,)
       ],),
     );
   }

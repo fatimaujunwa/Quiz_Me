@@ -18,8 +18,10 @@ enum Level { intermediate, beginner, advanced }
 
 class QuizController extends GetxController implements GetxService {
   final QuizRepo repo;
+  
   QuizController({required this.repo});
   List<Results> _quiz = [];
+  Map<String, int> categoryMap = {}
 
   List<bool> _results = [];
   List<bool> get results => _results;
@@ -27,6 +29,7 @@ class QuizController extends GetxController implements GetxService {
   List<Results> _category = [];
   List<Results> get category => _category;
   bool _loading = false;
+  int stars = 0;
   bool get loading => _loading;
   bool finished = false;
   Map<int, bool> _map = {
@@ -44,8 +47,8 @@ class QuizController extends GetxController implements GetxService {
   Map<int, bool> get map => _map;
   int _questionsClickedOn = 0;
   int get questionsClickedOn => _questionsClickedOn;
-  int _correctAnswers = 0;
-  int get correctAnswers => _correctAnswers;
+  int _score = 0;
+  int get score => _score;
   int _index = 0;
   int get index => _index;
   Map<String, int> _category_list = {};
@@ -95,25 +98,21 @@ class QuizController extends GetxController implements GetxService {
 
 //setters have just one parameter
   void changeMap(int i, bool val) {
-    
     _map.update(i, (value) => val);
     update();
   }
 
-void buttonClicked(int i, bool val, context){
-   _questionsClickedOn++;
-   if(_questionsClickedOn==map.length-1){
-      
-displayResult(context);
-      }
-      print('indee $questionsClickedOn');
-  changeMap(i, val);
-  update();
-  updateIndex = i;
- 
-      
+  void buttonClicked(int i, bool val, context) {
+    _questionsClickedOn++;
+    if (_questionsClickedOn == map.length - 1) {
+      displayResult(context);
+    }
 
-}
+    changeMap(i, val);
+    update();
+    updateIndex = i;
+  }
+
   void reset() {
     _map = {
       0: false,
@@ -127,7 +126,7 @@ displayResult(context);
       8: false,
       9: false,
     };
-    _correctAnswers = 0;
+    _score = 0;
     _questionsClickedOn = 0;
   }
 
@@ -143,28 +142,33 @@ displayResult(context);
     } else {
       CustomDialogue.showCustomDialogCompleteQuiz(context,
           okBtnFunction: () {},
-          text: _correctAnswers.toString(),
+          text: _score.toString(),
           subText: _questionsClickedOn.toString());
-      _correctAnswers = 0;
+      _score = 0;
       _questionsClickedOn = 1;
     }
   }
-
+  Map<String, int> getTrophy(){
+    return repo.getTrophy();
+  }
+int getStars(){
+ return repo.getStars();
+}
   void displayResult(context) {
     CustomDialogue.showCustomDialogCompleteQuiz(context,
         okBtnFunction: () {},
-        text: _correctAnswers.toString(),
+        text: _score.toString(),
         subText: _questionsClickedOn.toString());
   }
 
   void selectAnswer(String? correctAnswer, String? selectedAnswer,
       String category, BuildContext context) {
-    if (_map[_map.length - 1] == false ) {
+    if (_map[_map.length - 1] == false) {
       if (correctAnswer == selectedAnswer) {
-        _correctAnswers++;
+        _score++;
       }
       _questionsClickedOn++;
-      
+
       question++;
 
       _index = question;
@@ -172,69 +176,28 @@ displayResult(context);
       changeMap(question, true);
 
       update();
-    }
-    
-    
-     else {
-      if(_questionsClickedOn<map.length-1){
-               showCustomSnackBar(
+    } else {
+      if (_questionsClickedOn < map.length - 1) {
+        showCustomSnackBar(
             'Please make sure to answer all questions', 'Unanswered questions');
+      } else {
+        if (_score == _questionsClickedOn) {
+          stars++;
+          repo.addToStars(stars);
 
+        }  
+        categoryMap.putIfAbsent(category, () => 1);
+        repo.addToTrophy(categoryMap);
+
+
+        displayResult(context);
       }
-      else{
-displayResult(context);
-      }
-      
     }
+  }
 
-    // else {
-    //   if (_map.containsValue(false) && _map[9] == true) {
-    //     print(' map last${_map}');
+  void addToStars(int? stars) {
+    
 
-    //     showCustomSnackBar(
-    //         'Please make sure to answer all questions', 'Unanswered questions');
-
-    //     update();
-    //   }
-
-    //   else {
-
-    //     if (finished == false && _results.contains(true)) {
-    //       CustomDialogue.showCustomDialogCompleteQuiz(context,
-    //           okBtnFunction: () {},
-    //           text: _correctAnswers.toString(),
-    //           subText: _questionsClickedOn.toString());
-    //       print('list first' + _category_list.toString());
-    //       _correctAnswers = 0;
-    //       _questionsClickedOn = 0;
-
-    //      addToCategoryList(category);
-    //       Navigator.push(context, MaterialPageRoute(builder: (_,){
-    //         return PointsScreen();
-    //       }));
-    //      // if(_results.contains(true)){
-    //      //   Navigator.push(context, MaterialPageRoute(builder: (_,){
-    //      //     return PointsScreen();
-    //      //   }));
-    //      // }
-
-    //       update();
-
-    //       // List<dynamic> result=   _category_list.entries.map((e) {
-    //       //   return e;
-    //       //
-    //       // }).toList();
-    //       print('list' + _category_list.toString());
-
-    //       quizAnswered = 0;
-    //       finished = true;
-    //     }
-    //     else{
-
-    //     }
-
-    //   }
-    // }
   }
 
   void addToCategoryList(String category) {
@@ -252,27 +215,6 @@ displayResult(context);
     HelperFunctions helperFunctions = HelperFunctions();
     helperFunctions.addMap(_category_list);
   }
-
-  // void incrementQuestion(context, category) {
-  //   if (finished == true) {
-  //     showCustomSnackBar(
-  //         'Please press the back button to continue with the quizes',
-  //         'Go back');
-  //   }
-  //   _questionsClickedOn++;
-  //
-  //   update();
-  //   if (_questionsClickedOn == 10) {
-  //     finished = true;
-  //     update();
-  //     CustomDialogue.showCustomDialogCompleteQuiz(context,
-  //         okBtnFunction: () {},
-  //         text: _correctAnswers.toString(),
-  //         subText: _questionsClickedOn.toString());
-  //     addToCategoryList(category);
-  //     print('list incre' + _category_list.toString());
-  //   }
-  // }
 
   Future<void> getQuizLevel(String level, int category) async {
     _loading = true;
