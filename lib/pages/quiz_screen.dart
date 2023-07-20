@@ -200,7 +200,7 @@ late int index;
                             itemBuilder: (_, i) {
                               return GestureDetector(
                                   onTap: () {
-                                    controller.buttonClicked(i, true,context);
+                                    controller.buttonClicked(i, true,context,results[controller.index].category!);
                                     // controller.incrementQuestion(context,results[controller.index].category!);
                                     // controller.getIndex(i);
                                     // controller.updateIndex = i;

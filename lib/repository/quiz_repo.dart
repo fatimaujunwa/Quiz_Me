@@ -37,8 +37,15 @@ class QuizRepo {
   Map<String, int> getTrophy(){
  if (sharedPreferences.containsKey(_category)){
   cateList = sharedPreferences.getString(_category)!;
-  Map<String, int> newData = jsonDecode(cateList)
-          .map((key, value) => MapEntry(key, int.parse(value)));
+  Map<dynamic, dynamic> jsonList = jsonDecode(cateList);
+          // .map((key, value) => MapEntry(key, value as int));
+  Map<String, int> newData =   Map<String, int>();
+  jsonList.forEach((key, value) {
+    newData[key.toString()] = value as int;
+    
+    }
+    
+    );
 
   data = newData;
  }
@@ -46,18 +53,39 @@ class QuizRepo {
 }
 
 //review the map again
-
+String mapkey = '';
+Map<String, int> newData = Map<String, int>() ;
   void addToTrophy(Map<String, int> map) {
     if (sharedPreferences.containsKey(_category)) {
       categoryList = sharedPreferences.getString(_category)!;
 
-      Map<String, int> data = jsonDecode(categoryList)
-          .map((key, value) => MapEntry(key, int.parse(value)));
+      Map<dynamic, dynamic> data = jsonDecode(categoryList);
+  
+  data.forEach((key, value) {
+    newData[key.toString()] = value as int;
+    
+    });
+      
+    mapkey =  map.keys.first;
 
-      map.addAll(data);
+    if (newData.containsKey(mapkey)){
+      int prev = newData[mapkey]!;
+          int updated =  prev + map[mapkey] !;
+          newData[mapkey] = updated; 
+
+    }
+    else{
+      newData.addAll(map);
+    }
+          
+
+
+      
     }
 
-    String jsonData = jsonEncode(map);
+    print('mpp $newData');
+
+    String jsonData = jsonEncode(newData);
     sharedPreferences.setString(_category, jsonData);
   }
 

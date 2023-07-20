@@ -40,11 +40,11 @@ class QuizSelectionScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(controller.category[0].category!,style: TextDimensions.style28joseW600Grey,),
+                            Text(controller.cat[0].category!,style: TextDimensions.style28joseW600Grey,),
                             SizedBox(height: 15.5.h,),
                             Row(
                               children: [
-                                Text(controller.category[0].difficulty!,style: TextDimensions.style24joseW300grey,),
+                                Text(controller.cat[0].difficulty!,style: TextDimensions.style24joseW300grey,),
                                 SizedBox(width: 16.w,),
                                 Container(
                                   alignment: Alignment.center,
@@ -54,7 +54,7 @@ class QuizSelectionScreen extends StatelessWidget {
                                       color: AppColors.lightBlue,
                                       borderRadius: BorderRadius.circular(32.r)
                                   ),
-                                  child: Text('${controller.category.length} Available quizzes',style: TextDimensions.style13joseW500grey,),
+                                  child: Text('${controller.cat.length} Available quizzes',style: TextDimensions.style13joseW500grey,),
 
                                 )
                               ],
@@ -98,7 +98,7 @@ class QuizSelectionScreen extends StatelessWidget {
 
                 child: GridView.builder(
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount:controller.category.length ,
+                    itemCount:controller.cat.length ,
 
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(  crossAxisCount: 3,
                       childAspectRatio: 1,
@@ -108,7 +108,7 @@ class QuizSelectionScreen extends StatelessWidget {
                     itemBuilder:(_,index){
                   return GestureDetector(
                     onTap: (){
-Get.toNamed(RouteHelper.getQuizScreen(),arguments: [controller.category,index]);
+Get.toNamed(RouteHelper.getQuizScreen(),arguments: [controller.cat,index]);
 // Get.find<QuizController>().changeMap(index, true);
 
 // Get.find<QuizController>().getIndex(index);

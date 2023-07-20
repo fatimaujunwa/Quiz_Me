@@ -18,16 +18,16 @@ enum Level { intermediate, beginner, advanced }
 
 class QuizController extends GetxController implements GetxService {
   final QuizRepo repo;
-  
+
   QuizController({required this.repo});
   List<Results> _quiz = [];
-  Map<String, int> categoryMap = {}
+  Map<String, int> categoryMap = {};
 
   List<bool> _results = [];
   List<bool> get results => _results;
   List<Results> get quiz => _quiz;
   List<Results> _category = [];
-  List<Results> get category => _category;
+  List<Results> get cat => _category;
   bool _loading = false;
   int stars = 0;
   bool get loading => _loading;
@@ -102,9 +102,10 @@ class QuizController extends GetxController implements GetxService {
     update();
   }
 
-  void buttonClicked(int i, bool val, context) {
+  void buttonClicked(int i, bool val, context, String category) {
     _questionsClickedOn++;
     if (_questionsClickedOn == map.length - 1) {
+      addMapToShared(category, context);
       displayResult(context);
     }
 
@@ -148,12 +149,15 @@ class QuizController extends GetxController implements GetxService {
       _questionsClickedOn = 1;
     }
   }
-  Map<String, int> getTrophy(){
+
+  Map<String, int> getTrophy() {
     return repo.getTrophy();
   }
-int getStars(){
- return repo.getStars();
-}
+
+  int getStars() {
+    return repo.getStars();
+  }
+
   void displayResult(context) {
     CustomDialogue.showCustomDialogCompleteQuiz(context,
         okBtnFunction: () {},
@@ -184,20 +188,20 @@ int getStars(){
         if (_score == _questionsClickedOn) {
           stars++;
           repo.addToStars(stars);
-
-        }  
-        categoryMap.putIfAbsent(category, () => 1);
-        repo.addToTrophy(categoryMap);
-
+        }
+        addMapToShared(category, context);
 
         displayResult(context);
       }
     }
   }
 
-  void addToStars(int? stars) {
-    
+  void addMapToShared(category, context) {
+    categoryMap.putIfAbsent(category, () => 1);
+    repo.addToTrophy(categoryMap);
+    categoryMap.clear();
 
+    
   }
 
   void addToCategoryList(String category) {
