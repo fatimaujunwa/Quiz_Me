@@ -150,7 +150,8 @@ class QuizController extends GetxController implements GetxService {
     }
   }
 
-  Map<String, int> getTrophy() {
+  Map<String, bool> getTrophy() {
+    
     return repo.getTrophy();
   }
 
@@ -167,7 +168,9 @@ class QuizController extends GetxController implements GetxService {
 
   void selectAnswer(String? correctAnswer, String? selectedAnswer,
       String category, BuildContext context) {
+        print('cate $category');
     if (_map[_map.length - 1] == false) {
+
       if (correctAnswer == selectedAnswer) {
         _score++;
       }

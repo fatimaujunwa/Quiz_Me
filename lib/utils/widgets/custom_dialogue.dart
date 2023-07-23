@@ -33,7 +33,8 @@ class CustomDialogue {
         context: context,
         builder: (_) {
           return AlertDialog(
-
+           
+ shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             content:
                 GetBuilder<QuizController>(builder: (controller){
                  return   Column(

@@ -22,9 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController controller=TextEditingController();
   
   int stars =0;
-  Map<String, int> map = {};
+  Map<String, bool> map = {};
 
-  List category=['General Knowledge','Books','Film','Music','Musicals & Theatres','Television','Video Games', 'Board Games','Science & Nature','Science: Computers',
+ static List category=['General Knowledge','Books','Film','Music','Musicals & Theatres','Television','Video Games', 'Board Games','Science & Nature','Science: Computers',
     'Science: Mathematics,', 'Mythology','Sports','Geography','History','Politics','Arts','Celebrities','Animals','Vehicles','Comics','Gadgets','Japanese Anime & Manga ','Cartoon and Animations'];
 
 
@@ -54,7 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-
+ stars = Get.find<QuizController>().getStars();
+   map = Get.find<QuizController>().getTrophy();
 
     // TODO: implement initState
     super.initState();
@@ -66,9 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
 
   Widget build(BuildContext context) {
-  stars = Get.find<QuizController>().getStars();
-   map = Get.find<QuizController>().getTrophy();
-   print('mappp $map');
+ 
+
 
 
     HelperFunctions.getFirstNameStatus().then((value) {
@@ -160,6 +160,7 @@ Image.asset('images/Vector-5.png',width: 24.22.w,height: 24.22.h),
                                 padding:  EdgeInsets.only(top: 49.14.h),
                                 child: PointsWidget(image: 'images/Rectangle 6.png', height: 236.h, width: 187.w,img: 'images/Group 24.png',imgHeight: 146.09.h,imgWidth: 132.w,
                                 type: PointsType.starstype,
+                                stars: stars,
                                 ),
                               ),
 
