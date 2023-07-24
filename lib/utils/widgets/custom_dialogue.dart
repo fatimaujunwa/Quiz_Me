@@ -61,11 +61,13 @@ class CustomDialogue {
                      SizedBox(height: 10.h,),
                      LevelWidget(text: '10 Available quizzes',level: 'medium', l: Level.intermediate,cat: category, tap: () {
                       controller.setLevel(Level.intermediate);
+                      Get.find<QuizController>().getQuizLevel('medium',category).then((value) => Get.toNamed(RouteHelper.getQuizSelection()));
 
                      },),
                      SizedBox(height: 10.h,),
                      LevelWidget(text: '5 Available quizzes',level: 'hard', l: Level.advanced,cat: category, tap: () {
                        controller.setLevel(Level.advanced);
+                       Get.find<QuizController>().getQuizLevel('hard',category).then((value) => Get.toNamed(RouteHelper.getQuizSelection()));
                      },),
                      SizedBox(height: 24.51.h,),
                      Container(

@@ -55,6 +55,9 @@ class QuizController extends GetxController implements GetxService {
   Map<String, int> get category_list => _category_list;
   int quizAnswered = 0;
   int count = 0;
+  bool _displayed = false;
+ 
+  
   int savedCorrectAnswers = 0;
   List<String> result = [];
 
@@ -74,6 +77,10 @@ class QuizController extends GetxController implements GetxService {
 
   set setIndex(index) {
     question = index;
+  }
+  set setDisplayed(bool displayed){
+    _displayed = displayed;
+    
   }
 
   // void getIndex(int? i) {
@@ -102,11 +109,13 @@ class QuizController extends GetxController implements GetxService {
     update();
   }
 
-  void buttonClicked(int i, bool val, context, String category) {
+  void buttonClicked(int i, bool val, context, String category, String level) {
     _questionsClickedOn++;
     if (_questionsClickedOn == map.length - 1) {
-      addMapToShared(category, context);
-      displayResult(context);
+      addMapToShared(category, context, level);
+      if (_displayed != true) {
+        displayResult(context);
+      }
     }
 
     changeMap(i, val);
@@ -151,7 +160,6 @@ class QuizController extends GetxController implements GetxService {
   }
 
   Map<String, bool> getTrophy() {
-    
     return repo.getTrophy();
   }
 
@@ -164,13 +172,16 @@ class QuizController extends GetxController implements GetxService {
         okBtnFunction: () {},
         text: _score.toString(),
         subText: _questionsClickedOn.toString());
+
+    _displayed = true;
+
+    update();
+    
   }
 
   void selectAnswer(String? correctAnswer, String? selectedAnswer,
-      String category, BuildContext context) {
-        print('cate $category');
+      String category, BuildContext context, String level) {
     if (_map[_map.length - 1] == false) {
-
       if (correctAnswer == selectedAnswer) {
         _score++;
       }
@@ -192,19 +203,19 @@ class QuizController extends GetxController implements GetxService {
           stars++;
           repo.addToStars(stars);
         }
-        addMapToShared(category, context);
+        addMapToShared(category, context, level);
 
-        displayResult(context);
+        if (_displayed != true) {
+          displayResult(context);
+        }
       }
     }
   }
 
-  void addMapToShared(category, context) {
-    categoryMap.putIfAbsent(category, () => 1);
+  void addMapToShared(category, context, level) {
+    categoryMap.putIfAbsent('$category $level', () => 1);
     repo.addToTrophy(categoryMap);
     categoryMap.clear();
-
-    
   }
 
   void addToCategoryList(String category) {
