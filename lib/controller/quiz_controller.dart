@@ -32,18 +32,7 @@ class QuizController extends GetxController implements GetxService {
   int stars = 0;
   bool get loading => _loading;
   bool finished = false;
-  Map<int, bool> _map = {
-    0: false,
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-    5: false,
-    6: false,
-    7: false,
-    8: false,
-    9: false,
-  };
+
   Map<int, bool> get map => _map;
   int _questionsClickedOn = 0;
   int get questionsClickedOn => _questionsClickedOn;
@@ -56,15 +45,15 @@ class QuizController extends GetxController implements GetxService {
   int quizAnswered = 0;
   int count = 0;
   bool _displayed = false;
- 
-  
+  int element = 0;
+
   int savedCorrectAnswers = 0;
   List<String> result = [];
 
   int question = 0;
   Level selectedLevel = Level.intermediate;
 
-  void setLevel(Level level) {
+ set setLevel(Level level) {
     selectedLevel = level;
     update();
   }
@@ -72,36 +61,28 @@ class QuizController extends GetxController implements GetxService {
   void setResults(List<bool> res) {
     _results = res;
     update();
-    print(' results $_results');
   }
 
   set setIndex(index) {
     question = index;
   }
-  set setDisplayed(bool displayed){
-    _displayed = displayed;
-    
-  }
 
-  // void getIndex(int? i) {
-  //   // var firstEntryWithValue = _map.keys.firstWhere((entry) => entry == false, orElse: () => 0);
-  //   // print('my val $firstEntryWithValue');
-  //   _index = i!;
-  //   question = i;
-  //   print('index q $questionIndex');
-  //   // questionIndex = index;
-  //   // print(_index);
-  //   // print(' questionIndex $questionIndex');
-  // }
+  set setDisplayed(bool displayed) {
+    _displayed = displayed;
+  }
 
   set updateIndex(int index) {
-    // question = index;
     _index = index;
-    print('Index first $index');
+
     update();
-    // var firstEntryWithValue = _map.keys.firstWhere((entry) => entry == false, orElse: () => 0);
-    // print('my val $firstEntryWithValue');
   }
+
+  // ignore: prefer_for_elements_to_map_fromiterable
+  Map<int, bool> _map = Map.fromIterable(
+    Iterable.generate(9, (index) => index),
+    key: (element) => element,
+    value: (element) => false,
+  );
 
 //setters have just one parameter
   void changeMap(int i, bool val) {
@@ -112,15 +93,16 @@ class QuizController extends GetxController implements GetxService {
   void buttonClicked(int i, bool val, context, String category, String level) {
     _questionsClickedOn++;
     if (_questionsClickedOn == map.length - 1) {
-      addMapToShared(category, context, level);
       if (_displayed != true) {
         displayResult(context);
+        addMapToShared(category, context, level);
       }
     }
 
     changeMap(i, val);
     update();
     updateIndex = i;
+  
   }
 
   void reset() {
@@ -148,7 +130,6 @@ class QuizController extends GetxController implements GetxService {
     });
 
     if (count == 10) {
-      print('does not contain');
     } else {
       CustomDialogue.showCustomDialogCompleteQuiz(context,
           okBtnFunction: () {},
@@ -176,7 +157,22 @@ class QuizController extends GetxController implements GetxService {
     _displayed = true;
 
     update();
-    
+  }
+
+  void findnearest(Map<int, bool> map, bool find, number) {
+    question = number;
+    int j = question + 1;
+
+    while (question != j) {
+      if (map[j] == find) {
+        question = j;
+        
+      } else {
+        j += 1;
+      }
+    }
+
+    update();
   }
 
   void selectAnswer(String? correctAnswer, String? selectedAnswer,
@@ -185,9 +181,8 @@ class QuizController extends GetxController implements GetxService {
       if (correctAnswer == selectedAnswer) {
         _score++;
       }
+      findnearest(_map, false, question);
       _questionsClickedOn++;
-
-      question++;
 
       _index = question;
 
@@ -203,10 +198,10 @@ class QuizController extends GetxController implements GetxService {
           stars++;
           repo.addToStars(stars);
         }
-        addMapToShared(category, context, level);
 
         if (_displayed != true) {
           displayResult(context);
+          addMapToShared(category, context, level);
         }
       }
     }
@@ -224,12 +219,12 @@ class QuizController extends GetxController implements GetxService {
         value++;
         return (value++);
       });
-      // update();
+    
     } else {
       _category_list.putIfAbsent(category.substring(0, 4), () => 1);
       update();
     }
-    print('cate $category_list');
+   
     HelperFunctions helperFunctions = HelperFunctions();
     helperFunctions.addMap(_category_list);
   }
@@ -245,7 +240,7 @@ class QuizController extends GetxController implements GetxService {
 
       Map<String, dynamic> map = jsonDecode(response.body);
       List results = map["results"];
-      print(results[0]);
+     
       _category = results.map((e) => Results.fromJson(e)).toList();
       update();
     }
@@ -259,7 +254,7 @@ class QuizController extends GetxController implements GetxService {
       Map<String, dynamic> map = jsonDecode(response.body);
       List results = map["results"];
 
-      print(results);
+     
       _quiz = results.map((e) => Results.fromJson(e)).toList();
 
       update();

@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController controller = TextEditingController();
 
-  int stars = 0;
+  
   Map<String, bool> map = {};
 
   static List category = [
@@ -76,9 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    stars = Get.find<QuizController>().getStars();
+    
     map = Get.find<QuizController>().getTrophy();
-    print(map);
+
 
     HelperFunctions.getFirstNameStatus().then((value) {
       if (value == true) {
@@ -97,8 +97,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         SingleChildScrollView(
           child: Column(
+           
             children: [
               Container(
+                color: Colors.blue,
                   height: 485.h,
                   margin:
                       EdgeInsets.only(left: 16.w, right: 16.w, top: 72.99.h),
@@ -161,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             img: 'images/amico.png',
                             imgHeight: 146.09.h,
                             imgWidth: 132.w,
-                            stars: stars,
+                            // stars: stars,
                             type: PointsType.trophytype,
                           ),
                           SizedBox(
@@ -177,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               imgHeight: 146.09.h,
                               imgWidth: 132.w,
                               type: PointsType.starstype,
-                              stars: stars,
+                              // stars: stars,
                             ),
                           ),
                         ],
@@ -201,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return (i % 2 == 0)
                         ? GestureDetector(
                             onTap: () {
-                              print(i + 9);
+                            
 
                               CustomDialogue.showCustomDialog(context,
                                   okBtnFunction: () {}, category: i + 9);
@@ -323,6 +325,8 @@ class PointsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // int stars = Get.find<QuizController>().getStars();
+    // print('stars r $stars');
     return Container(
       padding: EdgeInsets.only(top: 23.53.h),
       width: width,
@@ -345,9 +349,14 @@ class PointsWidget extends StatelessWidget {
           SizedBox(
             height: 30.h,
           ),
-          Text(
-            type == PointsType.starstype ? '$stars points' : ' 12 points',
-            style: TextDimensions.style24joseW400White,
+          GetBuilder<QuizController>(
+            builder: (controller) {
+              return  Text(
+              type == PointsType.starstype ? '${controller.getStars()} points' : ' 12 points',
+              style: TextDimensions.style24joseW400White,
+            );
+            },
+            
           )
         ],
       ),

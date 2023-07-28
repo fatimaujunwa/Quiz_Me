@@ -45,6 +45,7 @@ class _QuizScreenState extends State<QuizScreen> {
     results = Get.arguments[0];
     index = Get.arguments[1];
     Get.find<QuizController>().setIndex = index; 
+    
     Get.find<QuizController>().setDisplayed = false;
     Get.find<QuizController>().reset();
 
