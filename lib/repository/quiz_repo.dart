@@ -53,23 +53,35 @@ class QuizRepo {
 
       data = trophyWins(newData);
     }
+
+    print('data $data');
     return data;
   }
 
   Map<String, bool> trophyMap = {};
   Map<String, bool> trophyWins(Map<String, int> map) {
     List vals = map.values.toList();
-    bool containsOnes = vals.every((element) => element == 1);
-    bool containsFives = vals.every((element) => element == 5);
-    if (containsOnes) {
-      trophyMap.putIfAbsent('One of each', () => true);
-    }
-    if (containsFives) {
-      trophyMap.putIfAbsent('Five of each', () => true);
+
+    if(vals.length==72){
+      bool containsOnes = vals.every((element){
+        print(element as int);
+        return  element >= 1;
+
+      });
+
+      bool containsFives = vals.every((element) => element >= 5);
+      if (containsOnes) {
+        trophyMap.putIfAbsent('One of each', () => true);
+      }
+      if (containsFives) {
+        trophyMap.putIfAbsent('Five of each', () => true);
+      }
     }
 
+
+
     map.forEach((key, value) {
-      if (value == 5) {
+      if (value >= 5) {
         trophyMap.putIfAbsent(key, () => true);
       }
     });

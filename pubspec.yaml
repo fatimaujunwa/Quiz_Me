@@ -39,6 +39,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_screenutil:
   google_fonts:
+  font_awesome_flutter:
+
   http:
   get:
   shared_preferences:

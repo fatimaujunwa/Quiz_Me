@@ -46,6 +46,7 @@ class QuizController extends GetxController implements GetxService {
   int count = 0;
   bool _displayed = false;
   int element = 0;
+  int challenges = 74;
 
   int savedCorrectAnswers = 0;
   List<String> result = [];
@@ -159,7 +160,7 @@ class QuizController extends GetxController implements GetxService {
     update();
   }
 
-  void findnearest(Map<int, bool> map, bool find, number) {
+  void findNearest(Map<int, bool> map, bool find, number) {
     question = number;
     int j = question + 1;
 
@@ -181,7 +182,7 @@ class QuizController extends GetxController implements GetxService {
       if (correctAnswer == selectedAnswer) {
         _score++;
       }
-      findnearest(_map, false, question);
+      findNearest(_map, false, question);
       _questionsClickedOn++;
 
       _index = question;
@@ -194,8 +195,8 @@ class QuizController extends GetxController implements GetxService {
         showCustomSnackBar(
             'Please make sure to answer all questions', 'Unanswered questions');
       } else {
-        if (_score == _questionsClickedOn) {
-          stars++;
+        if (_score >= _questionsClickedOn) {
+          stars=1;
           repo.addToStars(stars);
         }
 
@@ -205,6 +206,25 @@ class QuizController extends GetxController implements GetxService {
         }
       }
     }
+  }
+
+
+
+  //challenges
+ List<bool> challengeList(){
+    List <bool> userChallenges = getTrophy().values.toList();
+    List<String> quiztype = getTrophy().keys.toList();
+    List<bool>generalChallenges= List.filled(challenges, false,growable: true);
+
+    for(int i =0; i<userChallenges.length; i++){
+      if (userChallenges[i]==true){
+        generalChallenges[i]=true;
+      }
+    }
+
+    return generalChallenges;
+
+
   }
 
   void addMapToShared(category, context, level) {

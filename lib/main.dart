@@ -51,9 +51,9 @@ class _MyAppState extends State<MyApp> {
 
          primarySwatch: Colors.blue,
        ),
-       // home:HomeScreen(),
-       initialRoute: RouteHelper.initial,
-       getPages: RouteHelper.routes,
+       home:PointsScreen(),
+       // initialRoute: RouteHelper.initial,
+       // getPages: RouteHelper.routes,
      );
 
    },

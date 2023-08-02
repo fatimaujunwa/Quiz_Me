@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,14 +54,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void createAlert() {
     CustomDialogue.showCustomDialogOnboardingScreen(context, okBtnFunction: () {
-      print(controller.text);
+      
       if (controller.text.isEmpty) {
-        print('empty');
+        
 
         HelperFunctions.saveFirstNameStatus(false);
         Navigator.pop(context);
       } else {
-        print('not empty');
+       
         HelperFunctions.saveFirstNameStatus(true);
         HelperFunctions.saveFirstName(controller.text.trim());
         Navigator.pop(context);
@@ -82,10 +83,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     HelperFunctions.getFirstNameStatus().then((value) {
       if (value == true) {
-        print(value);
+        
       } else {
         Future.delayed(Duration.zero, () => createAlert());
-        print(false);
+        
       }
     });
 
@@ -100,8 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
            
             children: [
               Container(
-                color: Colors.blue,
-                  height: 485.h,
+
+                  height: 480.h,
                   margin:
                       EdgeInsets.only(left: 16.w, right: 16.w, top: 72.99.h),
                   child: Column(
@@ -231,7 +232,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 );
-              })
+              }),
+
+SizedBox(height: 30.h,)
+
             ],
           ),
         ),
@@ -259,15 +263,17 @@ class QuizWidget extends StatelessWidget {
       margin: EdgeInsets.only(left: 16.w, right: 16.w),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.r),
-          // color: AppColors.lighterBlue,
-          // border: Border(
-          //   right: BorderSide(color: Colors.black, width: 5.0),
-          // ),
+
           image: DecorationImage(image: AssetImage(img), fit: BoxFit.fill)),
       child: Container(
           padding: EdgeInsets.only(left: 16.96.w, top: 16.h),
           child: Row(
+
+
+
             children: [
+
+
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
