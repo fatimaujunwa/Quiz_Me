@@ -54,6 +54,70 @@ class QuizController extends GetxController implements GetxService {
   int question = 0;
   Level selectedLevel = Level.intermediate;
 
+
+  Map<String, int> categories = {
+    'General Knowledge':9,
+    'Books':10,
+    'Film':11,
+    'Music':12,
+
+    'Television':14,
+    'Video Games':15,
+    'Board Games':16,
+    'Science & Nature':17,
+    'Science: Computers':18,
+    'Science: Mathematics':19,
+    'Mythology':20,
+    'Sports':21,
+    'Geography':22,
+    'History':23,
+
+    'Celebrities':26,
+    'Animals':27,
+    'Vehicles':28,
+    'Comics':29,
+
+    'Japanese Anime & Manga':31,
+    'Cartoon and Animations':32
+
+  };
+
+  List<String> categoryNames(){
+
+    return categories.keys.toList();
+
+  }
+
+
+
+  static List category = [
+    'General Knowledge',
+    'Books',
+    'Film',
+    'Music',
+    'Musicals & Theatres',
+    'Television',
+    'Video Games',
+    'Board Games',
+    'Science & Nature',
+    'Science: Computers',
+    'Science: Mathematics,',
+    'Mythology',
+    'Sports',
+    'Geography',
+    'History',
+    'Politics',
+    'Arts',
+    'Celebrities',
+    'Animals',
+    'Vehicles',
+    'Comics',
+    'Gadgets',
+    'Japanese Anime & Manga ',
+    'Cartoon and Animations'
+  ];
+
+
  set setLevel(Level level) {
     selectedLevel = level;
     update();
@@ -209,9 +273,21 @@ class QuizController extends GetxController implements GetxService {
   }
 
 
+static const Levels = ['easy', 'medium', 'hard'];
+  Map<String, bool> challenge = {};
 
+  void testing(){
+    for(String element in category){
+      for (String level in Levels){
+       print('$element $level');
+      }
+    }
+  }
   //challenges
  List<bool> challengeList(){
+
+
+
     List <bool> userChallenges = getTrophy().values.toList();
     List<String> quiztype = getTrophy().keys.toList();
     List<bool>generalChallenges= List.filled(challenges, false,growable: true);

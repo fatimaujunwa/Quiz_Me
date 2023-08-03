@@ -14,6 +14,8 @@ class QuizSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+
+
     return Scaffold(
       body:
       SingleChildScrollView(
@@ -40,7 +42,7 @@ class QuizSelectionScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(controller.cat[0].category!,style: TextDimensions.style28joseW600Grey,),
+                            Text(Get.arguments[0],style: TextDimensions.style28joseW600Grey,),
                             SizedBox(height: 15.5.h,),
                             Row(
                               children: [
@@ -108,7 +110,7 @@ class QuizSelectionScreen extends StatelessWidget {
                     itemBuilder:(_,index){
                   return GestureDetector(
                     onTap: (){
-Get.toNamed(RouteHelper.getQuizScreen(),arguments: [controller.cat,index]);
+Get.toNamed(RouteHelper.getQuizScreen(),arguments: [controller.cat,index, Get.arguments[0]]);
 // Get.find<QuizController>().changeMap(index, true);
 
 // Get.find<QuizController>().getIndex(index);

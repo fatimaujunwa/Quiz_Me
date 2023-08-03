@@ -39,11 +39,13 @@ class _QuizScreenState extends State<QuizScreen> {
 
   late List<Results> results;
   late int index;
+  late String categoryName;
   @override
   void initState() {
     // Get.find()
     results = Get.arguments[0];
     index = Get.arguments[1];
+    categoryName = Get.arguments[2];
     Get.find<QuizController>().setIndex = index; 
     
     Get.find<QuizController>().setDisplayed = false;
@@ -66,7 +68,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
         List<String>? questions = results[controller.index].incorrectAnswers;
         questions?.add(results[controller.index].correctAnswer!);
-        print(questions);
+
         return Column(
           children: [
             Container(
@@ -92,17 +94,20 @@ class _QuizScreenState extends State<QuizScreen> {
                       SizedBox(
                         width: 22.w,
                       ),
-                      Text(
-                        'Verbal R ',
-                        style: TextDimensions.style28joseW600Grey,
+                      Column(
+                        children: [
+                          Text(
+                            '$categoryName',
+                            style: TextDimensions.style28joseW600Grey,
+                          ),
+                          Text(
+                            controller.cat[0].difficulty!,
+                            style: TextDimensions.style28joseW300grey,
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        width: 25.w,
-                      ),
-                      Text(
-                        controller.cat[0].difficulty!,
-                        style: TextDimensions.style28joseW300grey,
-                      ),
+
+
                       // SizedBox(width: 40.16.w,),
                       Image.asset(
                         'images/Vector-5.png',
@@ -144,7 +149,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       Get.find<QuizController>().selectAnswer(
                           results[controller.index].correctAnswer!,
                           questions![a],
-                          results[controller.index].category!,
+                          categoryName,
                           context,
                           controller.cat[0].difficulty!);
                     },
@@ -160,7 +165,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       Get.find<QuizController>().selectAnswer(
                           results[controller.index].correctAnswer!,
                           questions![d],
-                          results[controller.index].category!,
+                          categoryName,
                           context,
                           controller.cat[0].difficulty!);
                     },
@@ -176,7 +181,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       Get.find<QuizController>().selectAnswer(
                           results[controller.index].correctAnswer!,
                           questions![b],
-                          results[controller.index].category!,
+                          categoryName,
                           context,
                           controller.cat[0].difficulty!);
                     },
@@ -192,7 +197,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       Get.find<QuizController>().selectAnswer(
                           results[controller.index].correctAnswer!,
                           questions![c],
-                          results[controller.index].category!,
+                          categoryName,
                           context,
                           controller.cat[0].difficulty!);
                     },

@@ -74,6 +74,7 @@ child: Column(children: [
                   ),
             GetBuilder<QuizController>(builder: (controller){
 List challenges = controller.challengeList();
+controller.testing();
 
               return     ListView.separated(
                   padding: EdgeInsets.zero,

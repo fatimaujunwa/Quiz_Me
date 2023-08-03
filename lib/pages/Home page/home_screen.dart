@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,46 +21,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   TextEditingController controller = TextEditingController();
 
-  
-  Map<String, bool> map = {};
-
-  static List category = [
-    'General Knowledge',
-    'Books',
-    'Film',
-    'Music',
-    'Musicals & Theatres',
-    'Television',
-    'Video Games',
-    'Board Games',
-    'Science & Nature',
-    'Science: Computers',
-    'Science: Mathematics,',
-    'Mythology',
-    'Sports',
-    'Geography',
-    'History',
-    'Politics',
-    'Arts',
-    'Celebrities',
-    'Animals',
-    'Vehicles',
-    'Comics',
-    'Gadgets',
-    'Japanese Anime & Manga ',
-    'Cartoon and Animations'
-  ];
-
   void createAlert() {
     CustomDialogue.showCustomDialogOnboardingScreen(context, okBtnFunction: () {
-      
       if (controller.text.isEmpty) {
-        
-
         HelperFunctions.saveFirstNameStatus(false);
         Navigator.pop(context);
       } else {
-       
         HelperFunctions.saveFirstNameStatus(true);
         HelperFunctions.saveFirstName(controller.text.trim());
         Navigator.pop(context);
@@ -77,16 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
-    map = Get.find<QuizController>().getTrophy();
-
-
     HelperFunctions.getFirstNameStatus().then((value) {
       if (value == true) {
-        
       } else {
         Future.delayed(Duration.zero, () => createAlert());
-        
       }
     });
 
@@ -98,10 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         SingleChildScrollView(
           child: Column(
-           
             children: [
               Container(
-
                   height: 480.h,
                   margin:
                       EdgeInsets.only(left: 16.w, right: 16.w, top: 72.99.h),
@@ -195,36 +152,45 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   )),
               GetBuilder<QuizController>(builder: (controller) {
+                List<String> category = controller.categoryNames();
                 return ListView.separated(
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
                   primary: false,
                   itemCount: category.length,
                   itemBuilder: (_, i) {
-                    return (i % 2 == 0)
-                        ? GestureDetector(
-                            onTap: () {
-                            
-
-                              CustomDialogue.showCustomDialog(context,
-                                  okBtnFunction: () {}, category: i + 9);
-                            },
-                            child: QuizWidget(
-                                text:
-                                    'Test your ${category[i]} skills with out free quizzes',
-                                img: 'images/Rectangle 8.png',
-                                title: category[i]))
-                        : GestureDetector(
-                            onTap: () {
-                              CustomDialogue.showCustomDialog(context,
-                                  okBtnFunction: () {}, category: i + 9);
-                            },
-                            child: QuizWidget(
-                              text:
-                                  'Test your ${category[i]} skills with out free quizzes',
-                              img: 'images/Rectangle 9.png',
-                              title: category[i],
-                            ));
+                    return GestureDetector(
+                        onTap: () {
+                          CustomDialogue.showCustomDialog(context,
+                              okBtnFunction: () {}, categoryNo: controller.categories[category[i]]!, categoryName: category[i]);
+                        },
+                        child: quiz(i, category));
+                    // return (i % 2 == 0)
+                    //     ?
+                    // GestureDetector(
+                    //         onTap: () {
+                    //
+                    //
+                    //           CustomDialogue.showCustomDialog(context,
+                    //               okBtnFunction: () {}, category: i + 9);
+                    //         },
+                    //         child: QuizWidget(
+                    //             text:
+                    //                 'Test your ${category[i]} skills with out free quizzes',
+                    //             img: 'images/Rectangle 8.png',
+                    //             title: category[i]))
+                    //     : GestureDetector(
+                    //         onTap: () {
+                    //
+                    //           CustomDialogue.showCustomDialog(context,
+                    //               okBtnFunction: () {}, category: i + 9);
+                    //         },
+                    //         child: QuizWidget(
+                    //           text:
+                    //               'Test your ${category[i]} skills with out free quizzes',
+                    //           img: 'images/Rectangle 9.png',
+                    //           title: category[i],
+                    //         ));
                   },
                   separatorBuilder: (BuildContext context, int index) {
                     return SizedBox(
@@ -233,9 +199,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 );
               }),
-
-SizedBox(height: 30.h,)
-
+              SizedBox(
+                height: 30.h,
+              )
             ],
           ),
         ),
@@ -263,17 +229,11 @@ class QuizWidget extends StatelessWidget {
       margin: EdgeInsets.only(left: 16.w, right: 16.w),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.r),
-
           image: DecorationImage(image: AssetImage(img), fit: BoxFit.fill)),
       child: Container(
           padding: EdgeInsets.only(left: 16.96.w, top: 16.h),
           child: Row(
-
-
-
             children: [
-
-
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -357,15 +317,37 @@ class PointsWidget extends StatelessWidget {
           ),
           GetBuilder<QuizController>(
             builder: (controller) {
-              return  Text(
-              type == PointsType.starstype ? '${controller.getStars()} points' : ' 12 points',
-              style: TextDimensions.style24joseW400White,
-            );
+              return Text(
+                type == PointsType.starstype
+                    ? '${controller.getStars()} points'
+                    : ' 12 points',
+                style: TextDimensions.style24joseW400White,
+              );
             },
-            
           )
         ],
       ),
+    );
+  }
+}
+
+Widget quiz(int i, List category) {
+  if (i % 2 == 0) {
+    // if (i ==4 || i ==15 ||i == 16 ||i ==21){
+    //   return SizedBox.shrink();
+    // }
+    return QuizWidget(
+        text: 'Test your ${category[i]} skills with out free quizzes',
+        img: 'images/Rectangle 8.png',
+        title: category[i]);
+  } else {
+    // if (i ==4 || i ==15 ||i == 16 ||i ==21){
+    //   return SizedBox.shrink();
+    // }
+    return QuizWidget(
+      text: 'Test your ${category[i]} skills with out free quizzes',
+      img: 'images/Rectangle 9.png',
+      title: category[i],
     );
   }
 }

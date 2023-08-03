@@ -24,7 +24,10 @@ class CustomDialogue {
     String subText = '',
     bool approved = true,
     required Function() okBtnFunction,
-    required int category,
+    required int categoryNo,
+    required String categoryName
+
+
   }) {
     showDialog(
         context: context,
@@ -64,12 +67,12 @@ class CustomDialogue {
                     text: '15 Available quizzes',
                     level: 'easy',
                     l: Level.beginner,
-                    cat: category,
+                    cat: categoryNo,
                     tap: () {
                       Get.find<QuizController>()
-                          .getQuizLevel('easy', category)
+                          .getQuizLevel('easy', categoryNo)
                           .then((value) =>
-                              Get.toNamed(RouteHelper.getQuizSelection()));
+                              Get.toNamed(RouteHelper.getQuizSelection(), arguments: [categoryName]));
                       controller.setLevel = Level.beginner;
                     },
                   ),
@@ -80,13 +83,13 @@ class CustomDialogue {
                     text: '10 Available quizzes',
                     level: 'medium',
                     l: Level.intermediate,
-                    cat: category,
+                    cat: categoryNo,
                     tap: () {
                       controller.setLevel = Level.intermediate;
                       Get.find<QuizController>()
-                          .getQuizLevel('medium', category)
+                          .getQuizLevel('medium', categoryNo)
                           .then((value) =>
-                              Get.toNamed(RouteHelper.getQuizSelection()));
+                              Get.toNamed(RouteHelper.getQuizSelection(), arguments: [categoryName]));
                     },
                   ),
                   SizedBox(
@@ -96,13 +99,13 @@ class CustomDialogue {
                     text: '5 Available quizzes',
                     level: 'hard',
                     l: Level.advanced,
-                    cat: category,
+                    cat: categoryNo,
                     tap: () {
                       controller.setLevel = Level.advanced;
                       Get.find<QuizController>()
-                          .getQuizLevel('hard', category)
+                          .getQuizLevel('hard', categoryNo)
                           .then((value) =>
-                              Get.toNamed(RouteHelper.getQuizSelection()));
+                              Get.toNamed(RouteHelper.getQuizSelection(), arguments: [categoryName]));
                     },
                   ),
                   SizedBox(
