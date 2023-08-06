@@ -77,7 +77,7 @@ class QuizController extends GetxController implements GetxService {
     'Vehicles':28,
     'Comics':29,
 
-    'Japanese Anime & Manga':31,
+    'Japanese Anime':31,
     'Cartoon and Animations':32
 
   };
@@ -113,7 +113,7 @@ class QuizController extends GetxController implements GetxService {
     'Vehicles',
     'Comics',
     'Gadgets',
-    'Japanese Anime & Manga ',
+    'Japanese Anime',
     'Cartoon and Animations'
   ];
 
@@ -274,31 +274,46 @@ class QuizController extends GetxController implements GetxService {
 
 
 static const Levels = ['easy', 'medium', 'hard'];
-  Map<String, bool> challenge = {};
+  Map<String, bool> challenge = {'one of each':false, 'five of each':false};
 
   void testing(){
-    for(String element in category){
+    for(String element in categories.keys){
       for (String level in Levels){
-       print('$element $level');
+       challenge.putIfAbsent('$element $level', () => false);
       }
     }
+    print(challenge);
   }
   //challenges
- List<bool> challengeList(){
+ Map<String, bool> challengeList(){
+   List<String> quiztype = getTrophy().keys.toList();
+   testing();
 
 
 
-    List <bool> userChallenges = getTrophy().values.toList();
-    List<String> quiztype = getTrophy().keys.toList();
-    List<bool>generalChallenges= List.filled(challenges, false,growable: true);
-
-    for(int i =0; i<userChallenges.length; i++){
-      if (userChallenges[i]==true){
-        generalChallenges[i]=true;
+  challenge.forEach((key, value) {
+    quiztype.forEach((element) {
+      
+      if (challenge.containsKey(element)){
+        challenge[element] = true;
       }
-    }
+    });
+    
+  });
 
-    return generalChallenges;
+
+
+    List <bool> userChallenges = challenge.values.toList();
+   
+    // List<bool>generalChallenges= List.filled(challenges, false,growable: true);
+
+    // for(int i =0; i<userChallenges.length; i++){
+    //   if (userChallenges[i]==true){
+    //     generalChallenges[i]=true;
+    //   }
+    // }
+
+    return challenge;
 
 
   }

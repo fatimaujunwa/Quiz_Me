@@ -71,10 +71,10 @@ class QuizRepo {
 
       bool containsFives = vals.every((element) => element >= 5);
       if (containsOnes) {
-        trophyMap.putIfAbsent('One of each', () => true);
+        trophyMap.putIfAbsent('1 of each', () => true);
       }
       if (containsFives) {
-        trophyMap.putIfAbsent('Five of each', () => true);
+        trophyMap.putIfAbsent('5 of each', () => true);
       }
     }
 

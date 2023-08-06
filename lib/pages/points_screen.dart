@@ -19,7 +19,7 @@ class PointsScreen extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-height: 897.95.h,
+            height: 897.95.h,
             alignment: Alignment.topRight,
             child: Image.asset('images/Vector-2.png'),
           ),
@@ -29,109 +29,125 @@ height: 897.95.h,
               children: [
                 Container(
                   height: 485.h,
-
-                  margin: EdgeInsets.only(top:73.h ,left: 16.w,right: 16.w),
-child: Column(children: [
-  Row(children: [
-    InkWell(
-      onTap: ()=>Get.toNamed(RouteHelper.homeScreen),
-
-        child: Icon(Icons.arrow_back_ios,color: AppColors.lightBlue,size: 21,)),
-    SizedBox(width: 22.36.w,),
-    Text('Your Points\n earned',style: TextDimensions.style36joseW600Grey,)
-  ],),
-  SizedBox(height: 28.h,),
-  Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      PointsWidget(image: 'images/Rectangle 7.png', height: 274.59.h, width: 217.58.w,img: 'images/amico.png', imgHeight: 169.98.h, imgWidth: 153.58.w,
-      type: PointsType.trophytype,
-      ),
-      SizedBox(width: 16.w,),
-      Container(
-
-        height: 274.59.h,
-        width: 147.42.w,
-
-        child: Column(
-
-          children: [
-            Text("""Points are earned when you complete a challange. 
-""",style: TextDimensions.style20joseW400Grey,textAlign: TextAlign.justify),
-
-            Text('These challeges are provided to keep track of your progress and encourage you to do more.',style: TextDimensions.style20joseW400Grey,textAlign: TextAlign.justify)
-          ],
-        ),
-      )
-    ],
-  ),
-
-
-],),
-
-
-
+                  margin: EdgeInsets.only(top: 73.h, left: 16.w, right: 16.w),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          InkWell(
+                              onTap: () => Get.toNamed(RouteHelper.homeScreen),
+                              child: Icon(
+                                Icons.arrow_back_ios,
+                                color: AppColors.lightBlue,
+                                size: 21,
+                              )),
+                          SizedBox(
+                            width: 22.36.w,
+                          ),
+                          Text(
+                            'Your Points\n earned',
+                            style: TextDimensions.style36joseW600Grey,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 28.h,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          PointsWidget(
+                            image: 'images/Rectangle 7.png',
+                            height: 274.59.h,
+                            width: 217.58.w,
+                            img: 'images/amico.png',
+                            imgHeight: 169.98.h,
+                            imgWidth: 153.58.w,
+                            type: PointsType.trophytype,
+                          ),
+                          SizedBox(
+                            width: 16.w,
+                          ),
+                          Container(
+                            height: 274.59.h,
+                            width: 147.42.w,
+                            child: Column(
+                              children: [
+                                Text(
+                                    """Points are earned when you complete a challange. 
+""",
+                                    style: TextDimensions.style20joseW400Grey,
+                                    textAlign: TextAlign.justify),
+                                Text(
+                                    'These challeges are provided to keep track of your progress and encourage you to do more.',
+                                    style: TextDimensions.style20joseW400Grey,
+                                    textAlign: TextAlign.justify)
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
                   ),
-            GetBuilder<QuizController>(builder: (controller){
-List challenges = controller.challengeList();
-controller.testing();
+                ),
+                GetBuilder<QuizController>(builder: (controller) {
+                  List<String> challenges =
+                      controller.challengeList().keys.toList();
+                  List<bool> values =
+                      controller.challengeList().values.toList();
 
-              return     ListView.separated(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  primary: false,
-                  itemBuilder: (_,i){
-
-                    return
-
-
-                        Container(
-
-                        padding: EdgeInsets.only(left: 19.w),
-                        height: 67.h,width: 382.w,
-                        margin: EdgeInsets.only(left: 16.w,right: 16.w),
-
+                  return ListView.separated(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      primary: false,
+                      itemBuilder: (_, i) {
+                        return Container(
+                          padding: EdgeInsets.only(left: 19.w),
+                          height: 67.h,
+                          width: 382.w,
+                          margin: EdgeInsets.only(left: 16.w, right: 16.w),
                           decoration: BoxDecoration(
-                              color: challenges[i]==true?  AppColors.lightBlue:AppColors.pointColor,
+                              color: values[i] == true
+                                  ? AppColors.lightBlue
+                                  : AppColors.pointColor,
                               borderRadius: BorderRadius.circular(16.r)),
-                          child: Row(children: [
-                            Image.asset(challenges[i]==true? 'images/trophy.png':'images/trophy-2.png',height: 22.22.h,width: 25.w,),
-                            SizedBox(width: 10.w,),
-                            Text('Complete 1 quiz for each quiz type',style:TextDimensions.style16joseW400Blue,)
-                          ],),
-
-                      );
-
-                      Container(
-                        padding: EdgeInsets.only(left: 19.w),
-                        height:67.h ,
-                        width: 382.w,
-                        margin: EdgeInsets.only(left: 16.w,right: 16.w),
-
-
-                        decoration: BoxDecoration(
-                            color:   AppColors.lightBlue,
-                            borderRadius: BorderRadius.circular(16.r)),
-                        child: Row(children: [
-                          Image.asset( 'images/trophy-2.png',height: 22.22.h,width: 25.w,),
-                          SizedBox(width: 10.w,),
-                          Text('Complete 1 quiz for each quiz type',style:TextDimensions.style16joseW400Blue,)
-                        ],),
-
-                      );
-                  }, separatorBuilder:(_,i){
-                return SizedBox(height:12.h ,);
-              }, itemCount: challenges.length);
-
-            }),
-
-                SizedBox(height: 30.h,)
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                values[i] == true
+                                    ? 'images/trophy.png'
+                                    : 'images/trophy-2.png',
+                                height: 22.22.h,
+                                width: 25.w,
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              Text(
+                                'Complete ${challenges[i]}',
+                                style: values[i] == true
+                                    ? TextDimensions.style16joseW400White
+                                    : TextDimensions.style16joseW400Blue,
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (_, i) {
+                        return SizedBox(
+                          height: 12.h,
+                        );
+                      },
+                      itemCount: challenges.length);
+                }),
+                SizedBox(
+                  height: 30.h,
+                )
               ],
             ),
           )
         ],
       ),
-
     );
   }
 }
